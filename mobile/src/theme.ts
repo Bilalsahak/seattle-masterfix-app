@@ -1,0 +1,16 @@
+export const colors = {
+  ink: "#14293F",
+  inkSoft: "#1D3B58",
+  bronze: "#D79A43",
+  bronzeLight: "#F0C785",
+  bronzeDeep: "#835514",
+  parchment: "#F7F0E3",
+  parchmentDeep: "#EEE3D0",
+  paper: "#FDFAF3",
+  charcoal: "#1C242E",
+  muted: "#586575",
+  border: "#D9D2C7",
+  white: "#FFFFFF",
+  error: "#8C3B2E",
+  success: "#2F6B4F",
+} as const;
