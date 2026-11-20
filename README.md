@@ -18,14 +18,13 @@ The web export is written to `mobile/dist/`. The estimate form uses the existing
 endpoint. Confirm its notification recipient is `Bill@seattlemasterfix.com` and send an
 owner-approved test before announcing the app; no real delivery test has been sent.
 
-## Cloudflare Pages
+## GitHub Pages
 
-Connect this repository to Cloudflare Pages and configure:
+GitHub Actions exports the Expo web app and deploys it to the repository's Pages site on every push
+to `main`. Enable GitHub Pages with **Build and deployment → Source: GitHub Actions**. The workflow
+uses the `mobile/` workspace and configures the repository subpath automatically.
 
-- **Root directory:** `mobile`
-- **Build command:** `npm ci && npm run export:web`
-- **Build output directory:** `dist`
-- **Production branch:** `main`
+The public app URL is <https://bilalsahak.github.io/seattle-masterfix-app/>.
 
 The deployed HTTPS app includes a web manifest and branded icons. On iPhone/iPad, use Safari's
 Share menu → **Add to Home Screen**; on Android, use Chrome's menu → **Install app**.

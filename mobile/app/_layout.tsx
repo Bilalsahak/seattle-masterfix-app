@@ -3,6 +3,8 @@ import { Head } from "expo-router/head";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "@/theme";
 
+const baseUrl = process.env.EXPO_PUBLIC_BASE_URL?.replace(/\/+$/, "") ?? "";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -16,8 +18,8 @@ export default function RootLayout() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content="MasterFix" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href={`${baseUrl}/manifest.json`} />
+        <link rel="apple-touch-icon" href={`${baseUrl}/apple-touch-icon.png`} />
       </Head>
       <StatusBar style="dark" />
       <Stack
