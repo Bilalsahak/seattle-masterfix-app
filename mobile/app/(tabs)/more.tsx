@@ -5,6 +5,8 @@ import { site } from "@/data/publicContent";
 import { colors } from "@/theme";
 
 const items = [
+  { title: "About Seattle MasterFix", subtitle: "Business details, local focus, and services", section: "about" },
+  { title: "Property managers & GCs", subtitle: "Unit turns, punch lists, and repeat work", section: "property-managers" },
   { title: "Service area", subtitle: "Seattle neighborhoods and nearby cities", section: "service-area" },
   { title: "FAQs", subtitle: "Estimates, timelines, permits, and getting ready", section: "faq" },
   { title: "Cost guides", subtitle: "Planning ranges and project considerations", section: "guides" },
@@ -54,7 +56,26 @@ export default function MoreScreen() {
         <Pressable accessibilityRole="link" onPress={() => void openLink(`mailto:${site.email}`)}>
           <Text style={styles.contactLink}>{site.email}</Text>
         </Pressable>
+        <Text style={styles.hoursHeading}>Business hours</Text>
+        {site.hours.map((hours) => (
+          <Text key={hours.days} style={styles.detail}>
+            {hours.days}: {hours.time}
+          </Text>
+        ))}
         <Text style={styles.detail}>Washington registration {site.registrationNo}</Text>
+        <Pressable accessibilityRole="link" onPress={() => void openLink(site.calendly)}>
+          <Text style={styles.contactLink}>Book a consultation</Text>
+        </Pressable>
+      </Card>
+
+      <Card>
+        <Text style={styles.cardTitle}>Policies</Text>
+        <Pressable accessibilityRole="link" onPress={() => void openLink(`${site.url}/privacy/`)}>
+          <Text style={styles.contactLink}>Privacy Policy</Text>
+        </Pressable>
+        <Pressable accessibilityRole="link" onPress={() => void openLink(`${site.url}/terms/`)}>
+          <Text style={styles.contactLink}>Terms of Use</Text>
+        </Pressable>
       </Card>
 
       <Card style={styles.futureCard}>
@@ -104,5 +125,6 @@ const styles = StyleSheet.create({
   cardTitle: { color: colors.ink, fontSize: 16, fontWeight: "700" },
   detail: { color: colors.muted, fontSize: 13, lineHeight: 19 },
   contactLink: { color: colors.bronzeDeep, fontSize: 13, fontWeight: "600", paddingVertical: 2 },
+  hoursHeading: { color: colors.ink, fontSize: 13, fontWeight: "700", marginTop: 6 },
   futureCard: { backgroundColor: colors.parchmentDeep, borderColor: colors.parchmentDeep },
 });

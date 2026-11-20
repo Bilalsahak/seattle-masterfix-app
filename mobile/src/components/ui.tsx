@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Href, Link } from "expo-router";
 import {
   Pressable,
+  Image,
   ScrollView,
   StyleProp,
   StyleSheet,
@@ -24,9 +25,29 @@ export function Page({
         contentContainerStyle={[styles.content, contentStyle]}
         keyboardShouldPersistTaps="handled"
       >
+        <BrandHeader />
         {children}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+export function BrandHeader() {
+  return (
+    <Link href="/" asChild>
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel="Seattle MasterFix home"
+        style={styles.brandHeader}
+      >
+        <Image
+          accessible={false}
+          source={require("../../assets/images/seattle-masterfix-logo.png")}
+          resizeMode="contain"
+          style={styles.brandLogo}
+        />
+      </Pressable>
+    </Link>
   );
 }
 
@@ -132,6 +153,16 @@ export function ActionButton({
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.parchment },
+  brandHeader: {
+    minHeight: 96,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.ink,
+    borderRadius: 14,
+    overflow: "hidden",
+  },
+  brandLogo: { width: 112, height: 92 },
   content: {
     width: "100%",
     maxWidth: 680,

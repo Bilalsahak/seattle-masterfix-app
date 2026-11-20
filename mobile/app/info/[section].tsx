@@ -2,7 +2,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Accordion, ActionButton, BackLink, Card, Heading, Page } from "@/components/ui";
+import { Accordion, ActionButton, BackLink, BrandHeader, Card, Heading, Page } from "@/components/ui";
 import {
   faqGroups,
   guides,
@@ -10,18 +10,28 @@ import {
   photos,
   processSteps,
   regionLabels,
+  services,
   site,
   PHOTO_NOTE,
 } from "@/data/publicContent";
 import { colors } from "@/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type InfoSection = "faq" | "guides" | "projects" | "process" | "service-area";
+type InfoSection =
+  | "about"
+  | "faq"
+  | "guides"
+  | "projects"
+  | "process"
+  | "property-managers"
+  | "service-area";
 
 export default function InfoScreen() {
   const { section } = useLocalSearchParams<{ section: string }>();
 
   switch (section as InfoSection) {
+    case "about":
+      return <AboutScreen />;
     case "faq":
       return <FaqScreen />;
     case "guides":
@@ -30,6 +40,8 @@ export default function InfoScreen() {
       return <ProjectsScreen />;
     case "process":
       return <ProcessScreen />;
+    case "property-managers":
+      return <PropertyManagersScreen />;
     case "service-area":
       return <ServiceAreaScreen />;
     default:
@@ -40,6 +52,36 @@ export default function InfoScreen() {
         </Page>
       );
   }
+}
+
+function AboutScreen() {
+  return (
+    <Page>
+      <BackLink href="/(tabs)/more">← More</BackLink>
+      <Heading eyebrow="Who we are">{site.name}</Heading>
+      <Text style={styles.body}>
+        A Washington-registered remodeling contractor serving Seattle and King County. Trade work,
+        planned around the weather and the people living through it.
+      </Text>
+      <Card>
+        <Text style={styles.sectionTitle}>Business details</Text>
+        <Text style={styles.body}>Business name: {site.registeredName}</Text>
+        <Text style={styles.body}>Based in Ballard · {site.address.full}</Text>
+        <Text style={styles.body}>Service area: {site.serviceArea}</Text>
+        <Text style={styles.body}>Home turf: {site.homeTurf.join(", ")}</Text>
+        <Text style={styles.body}>Washington registration: {site.registrationNo}</Text>
+        <Text style={styles.body}>Warranty: {site.warrantyTerms}</Text>
+      </Card>
+      <Heading eyebrow="Trade work">Services</Heading>
+      {services.map((service) => (
+        <Card key={service.slug}>
+          <Text style={styles.cardTitle}>{service.name}</Text>
+          <Text style={styles.body}>{service.summary}</Text>
+        </Card>
+      ))}
+      <ActionButton href="/(tabs)/estimate">Request an estimate</ActionButton>
+    </Page>
+  );
 }
 
 function FaqScreen() {
@@ -119,6 +161,7 @@ function ProjectsScreen() {
         ItemSeparatorComponent={() => <View style={styles.photoSeparator} />}
         ListHeaderComponent={
           <View style={styles.photoHeader}>
+            <BrandHeader />
             <BackLink href="/(tabs)/more">← More</BackLink>
             <Heading eyebrow="A look at the work">Project photos</Heading>
             <Text style={styles.body}>{PHOTO_NOTE}</Text>
@@ -179,6 +222,64 @@ function ProcessScreen() {
         <Text style={styles.cardTitle}>Warranty</Text>
         <Text style={styles.body}>{site.warrantyTerms}</Text>
       </Card>
+    </Page>
+  );
+}
+
+const propertyManagerOffers = [
+  {
+    title: "Unit turns",
+    body: "Drywall patching, interior paint, flooring and small tile repairs between tenants, from a written scope.",
+  },
+  {
+    title: "Punch lists",
+    body: "Finishing items left at the end of a project or after an inspection: touch-ups, trim, patches and fixes.",
+  },
+  {
+    title: "Bulk and recurring work",
+    body: "Several units or properties at once, or repeat work with scope and pricing agreed in writing.",
+  },
+  {
+    title: "Trade work for GCs",
+    body: "Drywall, paint, tile, laminate flooring, siding and fencing scopes on your projects.",
+  },
+];
+
+const propertyManagerSteps = [
+  { title: "Send the request", body: "Tell us the property, number of units and work needed." },
+  { title: "Walkthrough", body: "We walk the unit or site with you or your on-site contact and note each item." },
+  { title: "Written quote", body: "You receive a written estimate for the agreed scope. It is non-binding until a contract is signed." },
+  { title: "Schedule and handoff", body: "We schedule around access and building rules, then check the work against the scope with you." },
+];
+
+function PropertyManagersScreen() {
+  return (
+    <Page>
+      <BackLink href="/(tabs)/more">← More</BackLink>
+      <Heading eyebrow="Property managers · General contractors">
+        Unit turns, punch lists and repeat repair work
+      </Heading>
+      <Text style={styles.body}>
+        A Washington-registered contractor crew for rentals, small commercial spaces and GC
+        projects in Seattle and King County. Clear written scopes and direct contact with the
+        people doing the work.
+      </Text>
+      <Heading eyebrow="What we handle">Work for managers and GCs</Heading>
+      {propertyManagerOffers.map((offer) => (
+        <Card key={offer.title}>
+          <Text style={styles.cardTitle}>{offer.title}</Text>
+          <Text style={styles.body}>{offer.body}</Text>
+        </Card>
+      ))}
+      <Heading eyebrow="How to start">Requesting a walkthrough</Heading>
+      {propertyManagerSteps.map((step, index) => (
+        <Card key={step.title}>
+          <Text style={styles.smallText}>Step {String(index + 1).padStart(2, "0")}</Text>
+          <Text style={styles.cardTitle}>{step.title}</Text>
+          <Text style={styles.body}>{step.body}</Text>
+        </Card>
+      ))}
+      <ActionButton href="/(tabs)/estimate">Request a walkthrough</ActionButton>
     </Page>
   );
 }
